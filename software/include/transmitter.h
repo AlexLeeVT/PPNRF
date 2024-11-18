@@ -1,4 +1,5 @@
 // C/C++ libraries
+#include <bitset>
 #include <cstdint>
 #include <stdio.h>
 
@@ -20,13 +21,19 @@
 
 #define CHANNEL 0x7e
 
+#define PACKET_LENGTH 28
+
 RF24 radio(CE, CSN); // pin numbers connected to the radio's CE and CSN pins (respectively)
 SPI spi;
 
 const uint8_t address[5] = {'R','x','A','A','A'};
 
-char dataToSend[10] = "Message 0";
-char txNum = '0';
+struct t_DataPacket {
+    uint16_t GPIO;
+};
+typedef struct t_DataPacket dataPacket;
+
+std::bitset<PACKET_LENGTH> dataToSend;
 
 unsigned long currentMillis;
 unsigned long prevMillis;

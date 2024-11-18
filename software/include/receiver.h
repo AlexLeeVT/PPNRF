@@ -1,6 +1,8 @@
 // C/C++ libraries
 #include <cstdint>
 #include <stdio.h>
+#include <bitset>
+#include <iostream>
 
 // pico libraries
 #include "pico/stdlib.h"
@@ -25,7 +27,7 @@ SPI spi;
 
 const uint8_t address[5] = {'R','x','A','A','A'};
 
-char dataReceived[10]; // this must match dataToSend in the TX
+std::bitset<28> dataReceived; // this must match dataToSend in the TX
 bool newData = false;
 
 void app_setup();

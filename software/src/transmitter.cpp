@@ -26,18 +26,19 @@ void setup_radio()
 void app_setup()
 {
     stdio_init_all();
-    // initialize_usb();
+    initialize_usb();
 
     setup_radio();
+
+    dataToSend = (1 << 0);
 }
 
 void updateMessage() {
     // so you can see that new data is being sent
-    txNum += 1;
-    if (txNum > '9') {
-        txNum = '0';
+    dataToSend = (dataToSend) << 1;
+    if (dataToSend == (1 << PACKET_LENGTH)) {
+        dataToSend = (1 << 0);
     }
-    dataToSend[8] = txNum;
 }
 
 void send() {
@@ -48,7 +49,7 @@ void send() {
         // For example if dataToSend was an int sizeof() would correctly return 2
 
     printf("Data Sent ");
-    printf(dataToSend);
+    printf("%s", dataToSend.to_string().c_str());
     if (rslt) {
         printf("  Acknowledge received\n");
         updateMessage();

@@ -33,7 +33,7 @@ void getData() {
 void showData() {
     if (newData == true) {
         printf("Data received \n");
-        printf(dataReceived);
+        printf("%s", dataReceived.to_string().c_str());
         printf("\n");
         newData = false;
     }
@@ -45,6 +45,8 @@ void app_setup()
     initialize_usb();
     
     setup_radio();
+
+    dataReceived.reset();
 }
 
 void app_loop()
