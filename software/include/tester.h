@@ -23,18 +23,19 @@ SPI spi;
 
 const uint8_t address[5] = {'R','x','A','A','A'};
 
-void app_setup();
-void app_loop();
+// void app_setup();
+// void app_loop();
 
-void initialize_usb();
-void setup_radio();
+// void initialize_usb();
+// void setup_radio();
 
-int main()
-{
-    app_setup();
+// int main()
+// {
+//     app_setup();
 
-    while (true)
-    {
-        app_loop();
-    }
-};
+//     while (true)
+//     {
+//         app_loop();
+//     }
+// };
+

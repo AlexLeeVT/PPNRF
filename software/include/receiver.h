@@ -1,12 +1,18 @@
+#ifndef RECEIVER_H_
+#define RECEIVER_H_
+
 // C/C++ libraries
 #include <cstdint>
 #include <stdio.h>
-#include <bitset>
 #include <iostream>
+#include <bitset>
 
 // pico libraries
 #include "pico/stdlib.h"
 #include "bsp/board.h"
+
+// HAL import
+#include <HAL.h>
 
 // tiny usb library
 #include <tusb.h>
@@ -14,31 +20,28 @@
 // radio library
 #include <RF24.h>
 
-#define CE  20
-#define CSN 17
-#define SCK 18
-#define TX  19
-#define RX  16
+// HID library
+// #include <DanceInputHandler.h>
 
-#define CHANNEL 0x7e
-
-RF24 radio(CE, CSN); // pin numbers connected to the radio's CE and CSN pins (respectively)
+RF24 radio(CE, CSN);            // pin numbers connected to the radio's CE and CSN pins (respectively)
 SPI spi;
 
-const uint8_t address[5] = {'R','x','A','A','A'};
+std::bitset<PACKET_LENGTH> dataReceived;   // this must match dataToSend in the TX
+bool receivedData = false;
 
-std::bitset<28> dataReceived; // this must match dataToSend in the TX
-bool newData = false;
+// application functions ----------------------------------------------------------------
+void app_setup();               // setup application
+void app_loop();                // application loop
 
-void app_setup();
-void app_loop();
+// radio functions ----------------------------------------------------------------------
+void setup_radio();             // initialize the radio
+void getData();                 // receive data
+void processData();             // format the data
 
-void initialize_usb();
-void setup_radio();
+// HID functions ------------------------------------------------------------------------
+void initialize_usb();          // waits for connection to host device
 
-void getData();
-void showData();
-
+// main loop ----------------------------------------------------------------------------
 int main()
 {
     app_setup();
@@ -48,3 +51,5 @@ int main()
         app_loop();
     }
 }
+
+#endif

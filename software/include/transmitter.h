@@ -1,3 +1,6 @@
+#ifndef TRANSMITTER_H_
+#define TRANSMITTER_H_
+
 // C/C++ libraries
 #include <bitset>
 #include <cstdint>
@@ -10,23 +13,14 @@
 // tiny usb library
 #include <tusb.h>
 
+// HAL files
+#include <HAL.h>
+
 // radio library
 #include <RF24.h>
 
-#define CE  20
-#define CSN 17
-#define SCK 18
-#define TX  19
-#define RX  16
-
-#define CHANNEL 0x7e
-
-#define PACKET_LENGTH 28
-
 RF24 radio(CE, CSN); // pin numbers connected to the radio's CE and CSN pins (respectively)
 SPI spi;
-
-const uint8_t address[5] = {'R','x','A','A','A'};
 
 struct t_DataPacket {
     uint16_t GPIO;
@@ -37,7 +31,9 @@ std::bitset<PACKET_LENGTH> dataToSend;
 
 unsigned long currentMillis;
 unsigned long prevMillis;
-unsigned long txIntervalMillis = 1000; // send once per second
+unsigned long txIntervalMillis = 500; // send once per second
+
+unsigned long startTimeCheck;
 
 void app_setup();
 void app_loop();
@@ -57,3 +53,5 @@ int main()
         app_loop();
     }
 };
+
+#endif
