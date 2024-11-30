@@ -23,6 +23,6 @@ typedef struct
 void setup_dancepad();
 void send_report(hid_custom_report_t *report);      // send HID report
 void update_hid();                                  // poll report tasks
-hid_custom_report_t* hid_task();                    // task to perform
+hid_custom_report_t hid_task();                    // task to perform
 
 #endif

@@ -21,7 +21,7 @@
 #include <RF24.h>
 
 // HID library
-// #include <DanceInputHandler.h>
+#include <DanceInputHandler.h>
 
 RF24 radio(CE, CSN);            // pin numbers connected to the radio's CE and CSN pins (respectively)
 SPI spi;

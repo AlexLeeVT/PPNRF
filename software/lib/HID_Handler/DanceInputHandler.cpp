@@ -5,7 +5,7 @@ void setup_dancepad()
     tusb_init();
 }
 
-void send_report(hid_custom_report_t *report)
+void send_report(hid_custom_report_t report)
 {
     // Remote wakeup
     if (tud_suspended())
@@ -16,7 +16,7 @@ void send_report(hid_custom_report_t *report)
     }
     if (tud_hid_ready())
     {
-        tud_hid_report(REPORT_ID_GAMEPAD, report, sizeof(*report));
+        tud_hid_report(REPORT_ID_GAMEPAD, &report, sizeof(report));
     }
 }
 

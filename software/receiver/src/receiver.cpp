@@ -7,7 +7,7 @@ void app_setup()
     initialize_usb();
     board_init();
 
-    // setup_dancepad();
+    setup_dancepad();
     
     setup_radio();
 
@@ -19,7 +19,7 @@ void app_loop()
     getData();
     processData();
 
-    // update_hid();
+    update_hid();
 }
 
 // radio functions ----------------------------------------------------------------------
@@ -64,20 +64,30 @@ void initialize_usb()
     // }
 }
 
-// hid_custom_report_t* hid_task()
-// {
-//     hid_custom_report_t *report = new hid_custom_report_t {
-//         .buttons = 0
-//     };
+hid_custom_report_t hid_task()
+{
+    hid_custom_report_t report = {
+        .buttons = 0
+    };
 
-//     // int button = (board_millis() / 1000) % 15;
-//     // report->buttons |= TU_BIT(button);
-//         // way to read from bitset
-//     for(int i = 0; i < dataReceived.size(); i++)
-//     {
-//         if(dataReceived[i])
-//             report->buttons |= BIT_TO_BUTTON(i);
-//     }
+    static unsigned long long endTime = board_millis();
+    static int button = 0;
+    // int button = (board_millis() / 1000) % 15;
+    if(board_millis() - endTime > 500)
+    {
+        endTime = board_millis();
+        button++;
 
-//     return report;
-// }
+        if(button > 10)
+            button = 0;
+    }
+    report.buttons |= TU_BIT(button);
+        // way to read from bitset
+    // for(int i = 0; i < dataReceived.size(); i++)
+    // {
+    //     if(dataReceived[i])
+    //         report->buttons |= BIT_TO_BUTTON(i);
+    // }
+
+    return report;
+}
